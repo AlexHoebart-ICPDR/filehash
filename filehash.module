@@ -6,7 +6,8 @@
  */
 
 /**
- * Implements hook_menu(). */
+ * Implements hook_menu().
+ */
 function filehash_menu() {
   $items['admin/config/media/filehash'] = array(
     'title' => 'File hash',
@@ -72,7 +73,8 @@ function filehash_algos() {
 }
 
 /**
- * Implements hook_file_delete(). */
+ * Implements hook_file_delete().
+ */
 function filehash_file_delete($file) {
   db_delete('filehash')
     ->condition('fid', $file->fid)
@@ -80,13 +82,15 @@ function filehash_file_delete($file) {
 }
 
 /**
- * Implements hook_file_insert(). */
+ * Implements hook_file_insert().
+ */
 function filehash_file_insert($file) {
   filehash_save($file);
 }
 
 /**
- * Implements hook_file_load(). */
+ * Implements hook_file_load().
+ */
 function filehash_file_load($files) {
   $columns = filehash_columns();
   if ($columns) {
@@ -117,7 +121,8 @@ function filehash_file_load($files) {
 }
 
 /**
- * Implements hook_file_update(). */
+ * Implements hook_file_update().
+ */
 function filehash_file_update($file) {
   filehash_save($file);
 }
@@ -146,7 +151,7 @@ function filehash_hash($algo, $uri) {
   // empty path. Opening a file with empty path throws a ValueError on PHP 8.
   try {
     if (preg_match('/^blake2b-([0-9]{3})$/', $algo, $matches)) {
-      return filehash_blake2b($uri, $matches[1] / 8);
+      return filehash_blake2b($uri, (int) $matches[1] / 8);
     }
     else {
       return hash_file($algo, $uri);
@@ -162,7 +167,8 @@ function filehash_hash($algo, $uri) {
 }
 
 /**
- * Implements hook_file_validate(). */
+ * Implements hook_file_validate().
+ */
 function filehash_file_validate($file) {
   $errors = array();
   // Zero size may indicate unreadable remote media source; bypass dedupe.
@@ -253,7 +259,8 @@ function filehash_names() {
 }
 
 /**
- * Implements hook_node_view(). */
+ * Implements hook_node_view().
+ */
 function filehash_node_view($node, $view_mode) {
   static $fields;
   // Add <media:hash> elements for at most one file per RSS item.
@@ -359,7 +366,8 @@ function filehash_add_columns() {
 }
 
 /**
- * Implements hook_views_api(). */
+ * Implements hook_views_api().
+ */
 function filehash_views_api() {
   return array(
     'api' => 3,
@@ -367,7 +375,8 @@ function filehash_views_api() {
 }
 
 /**
- * Implements hook_field_formatter_info(). */
+ * Implements hook_field_formatter_info().
+ */
 function filehash_field_formatter_info() {
   $columns = filehash_columns();
   return array(
@@ -380,7 +389,8 @@ function filehash_field_formatter_info() {
 }
 
 /**
- * Implements hook_field_formatter_settings_form(). */
+ * Implements hook_field_formatter_settings_form().
+ */
 function filehash_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   $names = filehash_names();
   $options = array();
@@ -397,7 +407,8 @@ function filehash_field_formatter_settings_form($field, $instance, $view_mode, $
 }
 
 /**
- * Implements hook_field_formatter_settings_summary(). */
+ * Implements hook_field_formatter_settings_summary().
+ */
 function filehash_field_formatter_settings_summary($field, $instance, $view_mode) {
   $names = filehash_names();
   if (isset($names[$instance['display'][$view_mode]['settings']['algo']])) {
@@ -406,7 +417,8 @@ function filehash_field_formatter_settings_summary($field, $instance, $view_mode
 }
 
 /**
- * Implements hook_field_formatter_view(). */
+ * Implements hook_field_formatter_view().
+ */
 function filehash_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   if (!empty($items)) {
@@ -458,7 +470,8 @@ function theme_filehash_table(array $variables) {
 }
 
 /**
- * Implements hook_theme(). */
+ * Implements hook_theme().
+ */
 function filehash_theme() {
   return array(
     'filehash_table' => array(
@@ -468,7 +481,8 @@ function filehash_theme() {
 }
 
 /**
- * Implements hook_help(). */
+ * Implements hook_help().
+ */
 function filehash_help($path) {
   switch ($path) {
     case 'admin/help#filehash':
