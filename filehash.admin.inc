@@ -41,6 +41,7 @@ function filehash_settings() {
  */
 function filehash_settings_submit() {
   filehash_add_columns();
+  cache_flush('cache_entity_file');
 }
 
 /**
