@@ -34,7 +34,7 @@ for such a feature. Note, in Backdrop, empty files are not considered duplicate
 files, as such "files" may represent remote media assets, etc.
 
 If you want to use the BLAKE2b hash algorithm, either the Sodium PHP extension
-or paragonie/sodium_compat polyfill are required.
+or paragonie/sodium_compat polyfill is required.
 
 Installation <!-- This section is required. -->
 ------------
